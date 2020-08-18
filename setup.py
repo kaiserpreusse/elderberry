@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(name='elderberry',
-      version='0.0.2',
-      description='Download data from biomedical databases and store in Neo4j.',
+      version='0.0.3',
+      description='A framework for parsing data into fraph elements.',
       url='https://github.com/kaiserpreusse/elderberry',
       author='Martin Preusse',
       author_email='martin.preusse@gmail.com',
