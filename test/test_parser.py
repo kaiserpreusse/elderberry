@@ -15,6 +15,9 @@ def test_parser_container(tmp_path):
     p.mynodes.add_node({'uuid': 'abc123'})
     p.myrels.add_relationship({'uuid': 'abc123'}, {'target_id': '12345'}, {'source': 'test'})
 
+    assert len(list(p.container.nodesets)) == 1
+    assert len((p.container.relationshipsets)) == 1
+
     for nodeset in p.container.nodesets:
         assert isinstance(nodeset, NodeSet)
 

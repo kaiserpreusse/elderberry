@@ -17,7 +17,7 @@ class Parser:
     @property
     def container(self):
         container = Container()
-        for o in self.__dict__:
+        for k, o in self.__dict__.items():
             if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
                 container.add(o)
         return container
