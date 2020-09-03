@@ -1,5 +1,5 @@
 import logging
-from graphio import Container
+from graphio import Container, NodeSet, RelationshipSet
 
 log = logging.getLogger(__name__)
 
@@ -12,8 +12,15 @@ class Parser:
 
         self.datasource_instances = []
 
-        self.container = Container()
         self.name = self.__class__.__name__
+
+    @property
+    def container(self):
+        container = Container()
+        for o in self.__dict__:
+            if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
+                container.add(o)
+        return container
 
     def get_instance_by_name(self, name):
         """
@@ -28,13 +35,6 @@ class Parser:
 
     def get_nodeset(self, labels, merge_keys):
         return self.container.get_nodeset(labels, merge_keys)
-
-    def reset_container(self):
-        """
-        Set container to empty Container() to allow for garbage collection.
-        """
-        del self.container
-        self.container = Container()
 
     def run_with_mounted_arguments(self):
         """
