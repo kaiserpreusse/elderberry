@@ -69,12 +69,14 @@ class ReturnParser(Parser):
         """
         Delete all NodeSets and RelationshipSets to free up memory in data loading pipelines.
         """
+        log.info("Reset Parser {}".format(self.__class__.__name__))
         marked_for_deletion = []
         for k, o in self.__dict__.items():
             if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
                 marked_for_deletion.append(k)
 
         for k in marked_for_deletion:
+            log.info("Delete value for key: {}".format(k))
             del self.__dict__[k]
 
 
