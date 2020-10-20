@@ -14,14 +14,6 @@ class Parser:
 
         self.name = self.__class__.__name__
 
-    @property
-    def container(self):
-        container = Container()
-        for k, o in self.__dict__.items():
-            if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
-                container.add(o)
-        return container
-
     def get_instance_by_name(self, name):
         """
 
@@ -65,6 +57,22 @@ class ReturnParser(Parser):
     def __init__(self, root_dir):
         super(ReturnParser, self).__init__(root_dir)
 
+    @property
+    def container(self):
+        container = Container()
+        for k, o in self.__dict__.items():
+            if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
+                container.add(o)
+        return container
+
+    def _reset_parser(self):
+        """
+        Delete all NodeSets and RelationshipSets to free up memory in data loading pipelines.
+        """
+        for k, o in self.__dict__.items():
+            if isinstance(o, NodeSet) or isinstance(o, RelationshipSet):
+                del self.__dict__[k]
+
 
 class YieldParser(Parser):
     """
@@ -77,5 +85,4 @@ class YieldParser(Parser):
     def __init__(self, root_dir):
         super(YieldParser, self).__init__(root_dir)
 
-    def mount_generators(self):
-        raise NotImplementedError
+        self.container = Container()
